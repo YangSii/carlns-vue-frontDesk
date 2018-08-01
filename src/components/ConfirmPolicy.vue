@@ -53,13 +53,13 @@
               </el-form-item>
               <el-form-item label="验证码：" :label-width="formLabelWidth">
                 <el-input v-model="form.codenum" auto-complete="off" style="width:130px;"></el-input>
-                <span type="primary" style="margin-top:0;margin-left: 10px;" @click="surePay">获取验证码</span>
+                <span type="primary" style="margin-top:0;margin-left: 10px; background: #2e92ff;text-align: center;color: #fff;border-radius: 3px;display:block;width: 100px;float:left;cursor:pointer" @click="surePay">获取验证码<span v-if="!show">{{count}}s</span></span>
                 <a :href="url + 'static/images/agreement/代扣授权协议.pdf'" target="_blank" style="float:right;margin-right: 50px;">《代扣授权协议》</a>
               </el-form-item>
             </el-form>
             <div class="footer" style="text-align: center;">
+              <el-button @click="PayConfirm" style="margin-top:0;background: #2e92ff;margin-right: 20px;">确 定</el-button>
               <button @click="dialogFormVisible = false" style="margin-top:0;">取 消</button>
-              <el-button type="primary" @click="PayConfirm" style="margin-top:0;">确 定</el-button>
             </div>
           </el-dialog>
         </div>
@@ -90,19 +90,42 @@ export default {
       form: {
         name: '',
         card: '',
-        cardNum: '6221884610021446029',
+        // cardNum: '6221884610021446029',
+        cardNum: '',
         phone: '',
         codenum: ''
       },
       formLabelWidth: '120px',
       rtime: '',
-      rmoney: ''
+      rmoney: '',
+      count: '',
+      show: true
     }
   },
   mounted () {
     this.getInfoData()
   },
   methods: {
+    // 倒计时
+    getCodeCount (e) {
+      // console.log(e)
+      const TIME_COUNT = 60
+      if (!this.timer) {
+        this.count = TIME_COUNT
+        this.show = false
+        e.target.style.backgroundColor = '#ccc'
+        this.timer = setInterval(() => {
+          if (this.count > 0 && this.count <= TIME_COUNT) {
+            this.count--
+          } else {
+            this.show = true
+            e.target.style.backgroundColor = '#2E92FF'
+            clearInterval(this.timer)
+            this.timer = null
+          }
+        }, 1000)
+      }
+    },
     PayConfirm () {
       if (this.form.codenum === '') {
         this.$message({
@@ -110,6 +133,12 @@ export default {
           message: '请输入验证码'
         })
       } else {
+        const loading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        })
         this.$http.get(url + 'pay/durch', {
           params: {
             'token': sessionStorage.getItem('userId'),
@@ -117,20 +146,13 @@ export default {
             'id': this.data.oid
           }
         }).then(res => {
-          console.log(res.data)
-          const loading = this.$loading({
-            lock: true,
-            text: 'Loading',
-            spinner: 'el-icon-loading',
-            background: 'rgba(0, 0, 0, 0.7)'
-          })
-          setTimeout(() => {
-            loading.close()
-          }, 3000)
+          // console.log(res.data)
           if (res.data.code === 200) {
-            // this.dialogFormVisible = false
-            // this.isShow = false
+            this.dialogFormVisible = false
+            loading.close()
+            this.isShow = false
           } else {
+            loading.close()
             this.$message({
               type: 'error',
               message: res.data.msg
@@ -176,55 +198,78 @@ export default {
       }
     },
     // 支付接口 获取验证码
-    surePay () {
-      if (this.form.name === '') {
-        this.$message({
-          type: 'info',
-          message: '姓名不能为空'
-        })
-      } else if (this.form.card === '') {
-        this.$message({
-          type: 'info',
-          message: '证件号不能为空'
-        })
-      } else if (this.form.cardNum === '') {
-        this.$message({
-          type: 'info',
-          message: '银行卡号不能为空'
-        })
-      } else if (this.form.phone === '') {
-        this.$message({
-          type: 'info',
-          message: '手机号不能为空'
-        })
-      } else {
-        this.$http.get(url + 'pay/apply', {
-          params: {
-            'token': sessionStorage.getItem('userId'),
-            // 'name': this.form.name,
-            // 'cardid': this.form.card,
-            // 'bankcard': this.form.cardNum,
-            // 'phone': this.form.phone,
-            'name': '路庆恒',
-            'cardid': '370830199407070016',
-            'bankcard': '6221884610021446029',
-            'phone': '14763775886',
-            'id': this.data.oid
-          }
-        }).then(res => {
-          console.log(res.data)
-          if (res.data.code === 200) {
+    surePay (e) {
+      if (this.show === true) {
+        if (this.form.name === '') {
+          this.$message({
+            type: 'info',
+            message: '姓名不能为空'
+          })
+        } else if (this.form.card === '') {
+          this.$message({
+            type: 'info',
+            message: '证件号不能为空'
+          })
+        } else if (this.form.cardNum === '') {
+          this.$message({
+            type: 'info',
+            message: '银行卡号不能为空'
+          })
+        } else if (this.form.phone === '') {
+          this.$message({
+            type: 'info',
+            message: '手机号不能为空'
+          })
+        } else {
+          var reg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/
+          var reg1 = /^([1-9]{1})(\d{14}|\d{18})$/
+          var reg2 = /^[1][3,4,5,7,8][0-9]{9}$/
+          if (!reg.test(this.form.card)) {
             this.$message({
               type: 'info',
-              message: '短信发送成功！'
+              message: '您输入的身份证号格式不正确，请重新输入'
+            })
+          } else if (!reg1.test(this.form.cardNum)) {
+            this.$message({
+              type: 'info',
+              message: '您输入的银行卡号格式不正确，请重新输入'
+            })
+          } else if (!reg2.test(this.form.phone)) {
+            this.$message({
+              type: 'info',
+              message: '您输入的手机号格式不正确，请重新输入'
             })
           } else {
-            this.$message({
-              type: 'error',
-              message: res.data.msg
+            this.getCodeCount(e)
+            this.$http.get(url + 'pay/apply', {
+              params: {
+                'token': sessionStorage.getItem('userId'),
+                'name': this.form.name,
+                'cardid': this.form.card,
+                'bankcard': this.form.cardNum,
+                'phone': this.form.phone,
+                // 'name': '路庆恒',
+                // 'cardid': '370830199407070016',
+                // 'bankcard': '6221884610021446029',
+                // 'phone': '14763775886',
+                'id': this.data.oid
+              }
+            }).then(res => {
+              console.log(res.data)
+              if (res.data.code === 200) {
+                this.$message({
+                  type: 'info',
+                  message: '短信发送成功！'
+                })
+              } else {
+                this.$message({
+                  type: 'error',
+                  message: res.data.msg
+                })
+              }
             })
           }
-        })
+        }
       }
     },
     save () {

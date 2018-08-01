@@ -14,7 +14,7 @@
             <td v-if="item.logtab === 2">姓名：{{ item.name }}</td>
             <td>车牌号：{{ item.licenseNumber }}</td>
             <td>车架号：{{ item.certification }}</td>
-            <td>分期金额：{{ item.businessRisks + item.insuranceRisks + item.transport }}</td>
+            <td>分期金额：{{ item.businessRisks + item.insuranceRisks + item.transport | fixedTwo}}</td>
             <td>分期期数：{{ item.monNubmer }}</td>
             <td>状态：{{ item.status | statusFilter }}</td>
             <td>时间：{{ item.datetime | formateDate }}</td>

@@ -9,7 +9,7 @@
           <td v-if="item.licenseNumber">车牌号：{{ item.licenseNumber }}</td>
           <td v-if="!item.licenseNumber">车架号：{{ item.certification }}</td>
           <td>分期金额：
-            <span style="color:#2e92ff;">{{ item.businessRisks + item.insuranceRisks + item.transport }}</span>
+            <span style="color:#2e92ff;">{{ item.businessRisks + item.insuranceRisks + item.transport | fixedTwo}}</span>
           </td>
           <td>分期期数：
             <span style="color:#2e92ff;">{{ item.monNubmer }}</span>
@@ -58,7 +58,7 @@ export default {
   },
   filters: {
     formateDate (data) {
-      if (!data) return '石彪你又没有存时间！'
+      if (!data) return '时间！'
       let date = new Date(data)
       return date.getFullYear() + '.' + addZero(date.getMonth() + 1) + '.' + addZero(date.getDate())
     },
@@ -68,6 +68,15 @@ export default {
       if (data === 3) return '已分期'
       if (data === 4) return '退保中'
       if (data === 5) return '已退保'
+    },
+    // 保留小数点后两位
+    fixedTwo (data) {
+      if (data.toString().indexOf('.') !== -1) {
+        if (data.toString().split('.')[1].length > 2) return data.toFixed(2)
+        if (data.toString().split('.')[1].length <= 2) return data
+      } else {
+        return data
+      }
     }
   },
   components: {

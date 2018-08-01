@@ -21,7 +21,7 @@
               <input type="checkbox" @change="readMessage($event, item.id)">
               <img src="../../assets/ok.png" alt="">
             </div>
-            <span class="text_show">
+            <span class="text_show" :title="item.content">
               <span><span style="color:#fe952b;">[{{ item.remarks }}] </span>{{ item.content }}</span><br>
               <span>{{ item.createDate | formateDate }}</span>
             </span>

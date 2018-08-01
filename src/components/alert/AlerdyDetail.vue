@@ -117,7 +117,7 @@ export default {
         // console.log(res.data)
         this.aaa = false
         this.checkDetailData = {
-          'id': res.data.id,
+          'id': res.data.data.id,
           'year': res.data.data.yearsNubmer,
           'mon': res.data.data.monNubmer,
           'money': res.data.data.businessRisks + res.data.data.insuranceRisks + res.data.data.transport,
