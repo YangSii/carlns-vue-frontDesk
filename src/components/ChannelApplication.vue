@@ -35,10 +35,10 @@
               <div>代理商合作协议：</div>
               <div class="img" :style="imgChange1">
                 <input type="file" @change="filePdf($event, 2)" accept=".pdf">
-                <div class="pdf_name">{{pdfName}}</div>
+                <!-- <div class="pdf_name">{{pdfName}}</div> -->
                 <span>请先下载代理合作协议，签字后以PDF格式上传</span>
               </div>
-              <a class="download" :href="url + Data.url" target="_blank">下载</a>
+              <a class="download" @click="download" style="cursor:pointer">下载</a>
             </div>
             <div class="pic">
               <div>法人身份证正面：</div>
@@ -84,12 +84,17 @@ export default {
     }
   },
   mounted () {
-    this.$http.get(url + 'admin/getByTime').then(res => {
-      // console.log(res.data)
-      this.Data = res.data.data
-    })
   },
   methods: {
+    download () {
+      this.$http.get(url + 'admin/getByTime').then(res => {
+        // console.log(res.data)
+        this.Data = res.data.data
+        if (res.data.msg === 'success') {
+          window.open(url + this.Data.url)
+        }
+      })
+    },
     // 失去焦点
     blur (e) {
       // console.log(e)
@@ -124,13 +129,16 @@ export default {
       } else if (this.address === '') {
         this.changeColor(3)
       } else if (this.arr[0] === undefined) {
-        this.changeColor(4)
+        // this.changeColor(4)
         alert('请上传营业执照')
       } else if (this.arr[1] === undefined) {
-        this.changeColor(4)
+        // this.changeColor(4)
         alert('请上传代理商合作协议')
       } else if (this.arr[2] === undefined) {
-        this.changeColor(4)
+        // this.changeColor(4)
+        alert('请上传法人身份证')
+      } else if (this.arr[3] === undefined) {
+        // this.changeColor(4)
         alert('请上传法人身份证')
       } else {
         // 判断是否为正确的手机号格式
@@ -158,6 +166,7 @@ export default {
             formData.append('file', v.file)
           })
           // console.log(this.arr)
+          // console.log(formData)
           let config = {
             headers: {'Content-Type': 'multipart/form-data'}
           }
@@ -188,7 +197,7 @@ export default {
           this.pdfName = filepdf.name
           this.arr.push({'id': i, 'file': filepdf})
           this.imgChange1 = {
-            'background': '#fff'
+            'background-image': 'url(/static/img/pdf.png)'
           }
         }
       } else {
@@ -221,6 +230,7 @@ export default {
             // 图片的 base64 格式, 可以直接当成 img 的 src 属性值
             var dataURL = reader.result
             var avatar = dataURL
+            // console.log(avatar)
             // console.log(i)
             if (i === 1) {
               that.imgChange0 = {

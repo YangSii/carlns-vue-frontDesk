@@ -9,7 +9,7 @@
           <p>1、《付款计划表》<a :href="url + Url" target="_blank">下载</a></p>
           <p>2、上传盖章或签名后的PDF付款计划表</p>
           <div class="up_pdf" :style="imgChange1">
-            {{name}}
+            <!-- {{name}} -->
             <input type="file" @change="uploadFile($event)" accept=".pdf">
           </div>
           <div class="btn">
@@ -68,7 +68,7 @@ export default {
           this.file = e.target.files[0]
           this.name = this.file.name
           this.imgChange1 = {
-            'background': '#fff'
+            'background-image': 'url(/static/img/pdf.png)'
           }
         }
       } else {
