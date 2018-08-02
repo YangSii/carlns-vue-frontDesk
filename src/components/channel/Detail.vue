@@ -26,13 +26,13 @@
               <!-- <input type="text" placeholder="请输入身份证号" v-model="cId"> -->
             </div>
             <div class="r">
-              <span><i>*</i> 联系方式：</span><input @keyup="numKeyUp" type="text" placeholder="请输入联系方式" v-model="Data.pPhone">
+              <span><i>*</i> 联系方式：</span><input @keyup="numKeyUp" type="text" placeholder="请输入联系方式" v-model="Data.pPhone" @blur="blur">
             </div>
             <div class="r" v-if="Data.pCertification">
               <span>车辆合格证：</span><input type="text" placeholder="请输入你的合格证/车牌号" v-model="Data.pCertification">
             </div>
             <div class="r" v-if="Data.pLicenseNumber">
-              <span>车牌号：</span><input type="text" placeholder="请输入你的合格证/车牌号" v-model="Data.pLicenseNumber" disabled>
+              <span>车牌号：</span><input type="text" placeholder="请输入你的合格证/车牌号" v-model="Data.pLicenseNumber">
             </div>
           </div>
         </div>
@@ -155,6 +155,18 @@ export default {
     this.getData()
   },
   methods: {
+    blur (e) {
+      var reg = /^[1][3,4,5,7,8][0-9]{9}$/
+      if (!reg.test(e.target.value)) {
+        e.target.style.borderColor = 'red'
+        this.$message({
+          type: 'info',
+          message: '您输入的手机号格式不正确，请重新输入'
+        })
+      } else {
+        e.target.style.borderColor = '#ccc'
+      }
+    },
     numberChange (data) {
       data.target.parentNode.nextSibling.disabled = false
       data.target.parentNode.style.color = '#000'
@@ -200,7 +212,7 @@ export default {
           formData.append('pBusinessRisks', this.Data.pBusinessRisks)
           formData.append('pInsuranceRisks', this.Data.pInsuranceRisks)
           formData.append('pTransport', this.Data.pTransport)
-          formData.append('pYearNubmer', this.Data.pYearNubmer)
+          formData.append('pYearsNubmer', this.Data.pYearNubmer)
           formData.append('pMonNubmer', this.Data.pMonNubmer)
           formData.append('token', sessionStorage.getItem('userId'))
           if (this.Data.pCertification !== '') {

@@ -267,7 +267,7 @@ export default {
             formData.append('pBusinessRisks', this.commercial)
             formData.append('pInsuranceRisks', this.strong)
             formData.append('pTransport', this.vehicles)
-            formData.append('pYearNubmer', this.pYearNubmer)
+            formData.append('pYearsNubmer', this.pYearNubmer)
             formData.append('pMonNubmer', this.pMonNubmer)
             formData.append('token', sessionStorage.getItem('userId'))
             if (this.pCertification !== '') {

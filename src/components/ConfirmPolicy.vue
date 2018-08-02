@@ -32,8 +32,10 @@
           </div>
           <div class="read_and_agree">
             <input type="radio" id="agree">
-            <a v-if="data.monNubmer" :href="url + 'static/images/agreement/个人车险服务协议一年期.pdf'" target="_blank">阅读并同意车险服务协议</a>
-            <a v-if="data.pMonNubmer" :href="url + 'static/mages/agreement/个人车险服务协议三年期.pdf'" target="_blank">阅读并同意车险服务协议</a>
+            <span style="color: #333;">阅读并同意</span>
+            <a v-if="data.monNubmer" :href="url + 'static/images/agreement/个人车险服务协议一年期.pdf'" target="_blank">《车险服务协议》</a>
+            <a v-if="data.pMonNubmer" :href="url + 'static/mages/agreement/个人车险服务协议三年期.pdf'" target="_blank">《车险服务协议》</a>
+            <a :href="url + 'static/images/agreement/代扣授权协议.pdf'" target="_blank" style="float:right;">《代扣授权协议》</a>
           </div>
           <!-- <button @click="save">去付款</button> -->
           <button type="text" @click="save">去付款</button>
@@ -54,7 +56,6 @@
               <el-form-item label="验证码：" :label-width="formLabelWidth">
                 <el-input v-model="form.codenum" auto-complete="off" style="width:130px;"></el-input>
                 <span type="primary" style="margin-top:0;margin-left: 10px; background: #2e92ff;text-align: center;color: #fff;border-radius: 3px;display:block;width: 100px;float:left;cursor:pointer" @click="surePay">获取验证码<span v-if="!show">{{count}}s</span></span>
-                <a :href="url + 'static/images/agreement/代扣授权协议.pdf'" target="_blank" style="float:right;margin-right: 50px;">《代扣授权协议》</a>
               </el-form-item>
             </el-form>
             <div class="footer" style="text-align: center;">

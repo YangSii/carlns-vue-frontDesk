@@ -181,7 +181,7 @@ export default {
           formData.append('businessRisks', this.Data.businessRisks)
           formData.append('insuranceRisks', this.Data.insuranceRisks)
           formData.append('transport', this.Data.transport)
-          formData.append('yearNubmer', this.Data.yearNubmer)
+          formData.append('yearsNubmer', this.Data.yearNubmer)
           formData.append('framenumber', this.Data.framenumber)
           formData.append('monNubmer', this.Data.monNubmer)
           formData.append('token', sessionStorage.getItem('userId'))
