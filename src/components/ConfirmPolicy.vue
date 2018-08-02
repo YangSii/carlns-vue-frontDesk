@@ -91,7 +91,6 @@ export default {
       form: {
         name: '',
         card: '',
-        // cardNum: '6221884610021446029',
         cardNum: '',
         phone: '',
         codenum: ''
@@ -249,10 +248,6 @@ export default {
                 'cardid': this.form.card,
                 'bankcard': this.form.cardNum,
                 'phone': this.form.phone,
-                // 'name': '路庆恒',
-                // 'cardid': '370830199407070016',
-                // 'bankcard': '6221884610021446029',
-                // 'phone': '14763775886',
                 'id': this.data.oid
               }
             }).then(res => {

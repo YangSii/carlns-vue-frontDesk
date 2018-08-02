@@ -295,7 +295,7 @@ export default {
       }).then(res => {
         // console.log(res.data)
         this.Data = res.data.data
-        if (this.Data.pYearsNubmer === 1) {
+        if (this.Data.pYearsNubmer === '1') {
           document.getElementById('one').style.borderColor = 'rgb(46, 146, 255)'
           document.getElementById('three').style.borderColor = '#ccc'
           this.monArr = [12]
