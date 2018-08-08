@@ -99,7 +99,8 @@ export default {
       rtime: '',
       rmoney: '',
       count: '',
-      show: true
+      show: true,
+      dataOid: ''
     }
   },
   mounted () {
@@ -143,7 +144,7 @@ export default {
           params: {
             'token': sessionStorage.getItem('userId'),
             'code': this.form.codenum,
-            'id': this.data.oid
+            'id': this.dataOid
           }
         }).then(res => {
           // console.log(res.data)
@@ -251,8 +252,9 @@ export default {
                 'id': this.data.oid
               }
             }).then(res => {
-              console.log(res.data)
+              // console.log(res.data.data)
               if (res.data.code === 200) {
+                this.dataOid = res.data.data
                 this.$message({
                   type: 'info',
                   message: '短信发送成功！'

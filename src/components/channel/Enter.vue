@@ -55,6 +55,9 @@
               </select> -->
               <input type="button" value="一年" @click="yearNumber($event, '1')">
               <input type="button" value="三年" @click="yearNumber($event, '3')">
+              <span v-if="isPerson" v-show="car">是否有车贷：</span>
+              <el-radio v-if="isPerson" v-show="car" v-model="radio" label="1">是</el-radio>
+              <el-radio v-if="isPerson" v-show="car" v-model="radio" label="2">否</el-radio>
             </div>
             <div class="r">
               <span>月付期期数：</span>
@@ -149,7 +152,9 @@ export default {
       arr: [],
       personData: [],
       numArr: [],
-      monArr: ['12']
+      monArr: ['12'],
+      radio: '1',
+      car: false
     }
   },
   mounted () {
@@ -199,10 +204,12 @@ export default {
         e.target.style.borderColor = 'rgb(46, 146, 255)'
         e.target.nextElementSibling.style.borderColor = '#ccc'
         this.monArr = ['12']
+        this.car = false
       } else {
         e.target.style.borderColor = 'rgb(46, 146, 255)'
         e.target.previousElementSibling.style.borderColor = '#ccc'
         this.monArr = ['12', '18', '24', '36']
+        this.car = true
       }
     },
     monthNumber (data) {
@@ -340,6 +347,7 @@ export default {
             formdata.append('transport', this.vehicles)
             formdata.append('monNubmer', this.pMonNubmer)
             formdata.append('yearsNubmer', this.pYearNubmer)
+            formdata.append('carloan', this.radio)
             formdata.append('token', sessionStorage.getItem('userId'))
             if (this.pCertification !== '') {
               if (this.driving === true) {

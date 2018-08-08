@@ -52,8 +52,8 @@
             </div>
             <div class="r">
               <span>车险年限：</span>
-              <input type="button" id="one" value="一年" @click="yearNumber($event, '1')">
-              <input type="button" id="three" value="三年" @click="yearNumber($event, '3')">
+              <input type="button" id="one" value="一年" @click="yearNumber($event, 1)">
+              <input type="button" id="three" value="三年" @click="yearNumber($event, 3)">
             </div>
             <div class="r">
               <span>月付期期数：</span>
@@ -267,11 +267,11 @@ export default {
     numKeyUp () {},
     yearNumber (e, data) {
       this.Data.pYearsNubmer = data
-      if (data === '1') {
+      if (data === 1) {
         e.target.style.borderColor = 'rgb(46, 146, 255)'
         e.target.nextElementSibling.style.borderColor = '#ccc'
         this.monArr = ['12']
-      } else if (data === '3') {
+      } else if (data === 3) {
         e.target.style.borderColor = 'rgb(46, 146, 255)'
         e.target.previousElementSibling.style.borderColor = '#ccc'
         this.monArr = ['12', '18', '24', '36']
@@ -295,11 +295,11 @@ export default {
       }).then(res => {
         // console.log(res.data)
         this.Data = res.data.data
-        if (this.Data.pYearsNubmer === '1') {
+        if (this.Data.pYearsNubmer === 1) {
           document.getElementById('one').style.borderColor = 'rgb(46, 146, 255)'
           document.getElementById('three').style.borderColor = '#ccc'
           this.monArr = [12]
-        } else if (this.Data.pYearsNubmer === '3') {
+        } else if (this.Data.pYearsNubmer === 3) {
           document.getElementById('three').style.borderColor = 'rgb(46, 146, 255)'
           document.getElementById('one').style.borderColor = '#ccc'
           this.monArr = [12, 18, 24, 36]

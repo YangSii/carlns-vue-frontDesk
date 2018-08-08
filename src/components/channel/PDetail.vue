@@ -47,8 +47,8 @@
             </div>
             <div class="r">
               <span>车险年限：</span>
-              <input type="button" id="one" value="一年" @click="yearNumber($event, '1')">
-              <input type="button" id="three" value="三年" @click="yearNumber($event, '3')">
+              <input type="button" id="one" value="一年" @click="yearNumber($event, 1)">
+              <input type="button" id="three" value="三年" @click="yearNumber($event, 3)">
             </div>
             <div class="r">
               <span>月付期期数：</span>
@@ -244,7 +244,7 @@ export default {
     },
     yearNumber (e, data) {
       this.Data.yearsNubmer = data
-      if (data === '1') {
+      if (data === 1) {
         e.target.style.borderColor = 'rgb(46, 146, 255)'
         e.target.nextElementSibling.style.borderColor = '#ccc'
         this.monArr = ['12']
@@ -268,7 +268,7 @@ export default {
       }).then(res => {
         // console.log(res.data)
         this.Data = res.data.data
-        if (this.Data.yearsNubmer === '1') {
+        if (this.Data.yearsNubmer === 1) {
           document.getElementById('one').style.borderColor = 'rgb(46, 146, 255)'
           document.getElementById('three').style.borderColor = '#ccc'
           this.monArr = [12]
